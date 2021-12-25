@@ -1,0 +1,21 @@
+input PartnerInput {
+    partnerName: String
+    businessNo: String
+    email: String
+}
+
+type Partner {
+    id: Int!
+    partnerName: String
+    email: String
+    businessNo: String
+    status: String
+}
+
+type Mutation {
+    registerPartner(partnerInput: PartnerInput!): Partner
+}
+
+type Query {
+    retrievePartnerBy(partnerId: Int!): Partner
+}
