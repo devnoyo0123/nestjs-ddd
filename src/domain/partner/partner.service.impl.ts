@@ -1,7 +1,5 @@
 import { PartnerService } from './partner.service';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
-import { PartnerRepositoryImpl } from '../../infrastructure/partner/partner.repository.impl';
+import { Inject, Injectable } from '@nestjs/common';
 import { PartnerCommand } from './partner.command';
 import { PartnerInfo } from './partner.info';
 import { PartnerReader } from './partner.reader';
@@ -10,12 +8,13 @@ import { PartnerStore } from './partner.store';
 @Injectable()
 export class PartnerServiceImpl implements PartnerService {
   constructor(
-    @InjectRepository(PartnerRepositoryImpl)
+    @Inject('PartnerReader')
     private partnerReader: PartnerReader,
-    @InjectRepository(PartnerRepositoryImpl)
+    @Inject('PartnerStore')
     private partnerStore: PartnerStore,
   ) {}
-  async registerPartner(command: PartnerCommand) {
+
+  async registerPartner(command: PartnerCommand): Promise<PartnerInfo> {
     const initPartner = command.toEntity();
     const partner = await this.partnerStore.store(initPartner);
     return new PartnerInfo(partner);

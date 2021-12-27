@@ -3,12 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './config/database/database.module';
-import { InfrastructureModule } from './infrastructure/infrastructure.module';
-import { DomainModule } from './domain/domain.module';
-import { ApplicationModule } from './application/application.module';
-import { InterfaceModule } from './interfaces/interface.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
+import { PartnerModule } from './modules/partner.module';
 
 const dpath = join(process.cwd(), 'src/graphql.schema.ts');
 
@@ -25,10 +22,7 @@ const dpath = join(process.cwd(), 'src/graphql.schema.ts');
       },
     }),
     DatabaseModule,
-    DomainModule,
-    ApplicationModule,
-    InterfaceModule,
-    InfrastructureModule,
+    PartnerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

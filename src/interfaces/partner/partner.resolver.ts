@@ -1,28 +1,25 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PartnerFacade } from '../../application/partner/partner.facade';
-import { PartnerMapper } from './partner.mapper';
-import { PartnerInput } from '../../graphql.schema';
-import { PartnerCommand } from '../../domain/partner/partner.command';
+import { PartnerDtoMapper } from './partner.dto.mapper';
+import { Partner, PartnerInput } from '../../graphql.schema';
 
 @Resolver('Partner')
 export class PartnerResolver {
   constructor(
-    private partnerFacade: PartnerFacade,
-    private partnerMapper: PartnerMapper,
+    private readonly partnerFacade: PartnerFacade,
+    private readonly partnerDtoMapper: PartnerDtoMapper,
   ) {}
 
   @Mutation('registerPartner')
-  async registerPartner(@Args('partnerInput') input: PartnerInput) {
-    const command = new PartnerCommand(input);
+  async register(@Args('partnerInput') input: PartnerInput): Promise<Partner> {
+    const command = this.partnerDtoMapper.toRegisterPartnerCommand(input);
     const partnerInfo = await this.partnerFacade.registerPartner(command);
-    const response = this.partnerMapper.of(partnerInfo);
-    return response;
+    return this.partnerDtoMapper.toRegisterPartnerResponse(partnerInfo);
   }
 
   @Query('retrievePartnerBy')
-  async retrieve(@Args('partnerId') partnerId: number) {
+  async retrieve(@Args('partnerId') partnerId: number): Promise<Partner> {
     const partnerInfo = await this.partnerFacade.retrievePartnerInfo(partnerId);
-    const response = this.partnerMapper.of(partnerInfo);
-    return response;
+    return this.partnerDtoMapper.toRetrievePartnerResponse(partnerInfo);
   }
 }
