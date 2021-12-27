@@ -1,6 +1,0 @@
-"""
-Root query
-"""
-type Query {
-    dummy: String
-}

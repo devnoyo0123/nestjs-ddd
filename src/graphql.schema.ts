@@ -13,12 +13,6 @@ export class PartnerInput {
     email?: Nullable<string>;
 }
 
-export abstract class IQuery {
-    abstract dummy(): Nullable<string> | Promise<Nullable<string>>;
-
-    abstract retrievePartnerBy(partnerId: number): Nullable<Partner> | Promise<Nullable<Partner>>;
-}
-
 export class Partner {
     id: number;
     partnerName?: Nullable<string>;
@@ -29,6 +23,10 @@ export class Partner {
 
 export abstract class IMutation {
     abstract registerPartner(partnerInput: PartnerInput): Nullable<Partner> | Promise<Nullable<Partner>>;
+}
+
+export abstract class IQuery {
+    abstract retrievePartnerBy(partnerId: number): Nullable<Partner> | Promise<Nullable<Partner>>;
 }
 
 type Nullable<T> = T | null;
