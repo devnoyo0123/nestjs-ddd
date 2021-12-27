@@ -3,11 +3,11 @@ import { Partner } from '../../domain/partner/partner.entity';
 
 @EntityRepository(Partner)
 export class PartnerRepositoryImpl extends Repository<Partner> {
-  getPartnerBy(partnerId: number) {
+  async getPartnerBy(partnerId: number) {
     return this.findOne(partnerId);
   }
 
-  store(partner: Partner) {
-    return this.store(partner);
+  async store(partner: Partner) {
+    return this.save(partner);
   }
 }

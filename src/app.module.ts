@@ -10,7 +10,7 @@ import { InterfaceModule } from './interfaces/interface.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 
-const dpath = join(process.cwd(), 'src/graphql.ts');
+const dpath = join(process.cwd(), 'src/graphql.schema.ts');
 
 @Module({
   imports: [

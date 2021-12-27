@@ -5,19 +5,24 @@ import { PartnerRepositoryImpl } from '../../infrastructure/partner/partner.repo
 import { PartnerCommand } from './partner.command';
 import { PartnerInfo } from './partner.info';
 import { PartnerReader } from './partner.reader';
+import { PartnerStore } from './partner.store';
 
 @Injectable()
 export class PartnerServiceImpl implements PartnerService {
   constructor(
     @InjectRepository(PartnerRepositoryImpl)
-    private partnerRepository: PartnerReader,
+    private partnerReader: PartnerReader,
+    @InjectRepository(PartnerRepositoryImpl)
+    private partnerStore: PartnerStore,
   ) {}
-  registerPartner(command: PartnerCommand) {
+  async registerPartner(command: PartnerCommand) {
     const initPartner = command.toEntity();
+    const partner = await this.partnerStore.store(initPartner);
+    return new PartnerInfo(partner);
   }
 
   async retrievePartnerInfo(partnerId: number): Promise<PartnerInfo> {
-    const partner = await this.partnerRepository.getPartnerBy(partnerId);
+    const partner = await this.partnerReader.getPartnerBy(partnerId);
     return new PartnerInfo(partner);
   }
 }

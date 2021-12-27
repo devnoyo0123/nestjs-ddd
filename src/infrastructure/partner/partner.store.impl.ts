@@ -11,7 +11,7 @@ export class PartnerStoreImpl implements PartnerStore {
     private partnerRepository: PartnerStore,
   ) {}
 
-  store(partner: Partner) {
+  async store(partner: Partner) {
     return this.partnerRepository.store(partner);
   }
 }

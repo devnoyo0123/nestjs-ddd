@@ -9,4 +9,8 @@ export class PartnerFacade {
   async retrievePartnerInfo(partnerId: number): Promise<PartnerInfo> {
     return this.partnerService.retrievePartnerInfo(partnerId);
   }
+
+  registerPartner(command) {
+    return this.partnerService.registerPartner(command);
+  }
 }

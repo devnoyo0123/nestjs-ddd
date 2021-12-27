@@ -1,4 +1,5 @@
-import { Partner, PartnerStatus } from './partner.entity';
+import { PartnerStatus } from './partner.entity';
+import { PartnerInput } from '../../graphql.schema';
 
 export class PartnerCommand {
   partnerName: string;
@@ -6,14 +7,14 @@ export class PartnerCommand {
   email: string;
   status: PartnerStatus;
 
-  constructor(partner: Partial<Partner>) {
-    this.partnerName = partner.name;
-    this.businessNo = partner.businessNo;
-    this.email = partner.email;
-    this.status = partner.status;
+  constructor(partnerInput: PartnerInput) {
+    this.partnerName = partnerInput.partnerName;
+    this.businessNo = partnerInput.businessNo;
+    this.email = partnerInput.email;
+    this.status = PartnerStatus.ENABLE;
   }
 
-  toEntity(): Omit<Partner, 'id' | 'updatedAt' | 'createdAt' | 'deletedAt'> {
+  toEntity() {
     return {
       businessNo: this.businessNo,
       email: this.email,
