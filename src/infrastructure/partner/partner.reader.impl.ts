@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PartnerRepositoryImpl } from './partner.repository.impl';
+import { Inject, Injectable } from '@nestjs/common';
 import { PartnerReader } from '../../domain/partner/partner.reader';
+import { EntityManager } from 'typeorm';
+import { PartnerRepository } from './partner.repository';
 
 @Injectable()
 export class PartnerReaderImpl implements PartnerReader {
   constructor(
-    @InjectRepository(PartnerRepositoryImpl)
-    private partnerRepository: PartnerReader,
+    @Inject('PartnerRepository')
+    private partnerRepository: PartnerRepository,
   ) {}
 
-  getPartnerBy(partnerId: number) {
-    return this.partnerRepository.getPartnerBy(partnerId);
+  getPartnerBy(partnerId: number, entityManager: EntityManager) {
+    return this.partnerRepository.getPartnerBy(partnerId, entityManager);
   }
 }

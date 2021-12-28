@@ -1,5 +1,9 @@
 import { Partner } from './partner.entity';
+import { EntityManager } from 'typeorm';
 
 export interface PartnerReader {
-  getPartnerBy(partnerId: number): Partner;
+  getPartnerBy(
+    partnerId: number,
+    entityManager?: EntityManager,
+  ): Promise<Partner>;
 }

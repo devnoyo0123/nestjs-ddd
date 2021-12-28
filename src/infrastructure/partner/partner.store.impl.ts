@@ -1,17 +1,17 @@
 import { PartnerStore } from '../../domain/partner/partner.store';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PartnerRepositoryImpl } from './partner.repository.impl';
+import { Inject, Injectable } from '@nestjs/common';
 import { Partner } from '../../domain/partner/partner.entity';
+import { EntityManager } from 'typeorm';
+import { PartnerRepository } from './partner.repository';
 
 @Injectable()
 export class PartnerStoreImpl implements PartnerStore {
   constructor(
-    @InjectRepository(PartnerRepositoryImpl)
-    private partnerRepository: PartnerStore,
+    @Inject('PartnerRepository')
+    private partnerRepository: PartnerRepository,
   ) {}
 
-  async store(partner: Partner) {
-    return this.partnerRepository.store(partner);
+  async store(partner: Partner, entityManager: EntityManager) {
+    return this.partnerRepository.store(partner, entityManager);
   }
 }

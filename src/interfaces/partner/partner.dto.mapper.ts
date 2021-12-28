@@ -6,6 +6,9 @@ import { PartnerCommand } from '../../domain/partner/partner.command';
 @Injectable()
 export class PartnerDtoMapper {
   toRetrievePartnerResponse(partnerInfo: PartnerInfo): Partner {
+    if (!partnerInfo) {
+      return null;
+    }
     return {
       id: partnerInfo.id,
       partnerName: partnerInfo.name,

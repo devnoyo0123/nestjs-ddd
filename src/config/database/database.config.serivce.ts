@@ -9,6 +9,8 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
+    const appEnv: string = this.configService.get<string>('APP_ENV');
+
     const host = this.configService.get('DB_HOST') || 'localhost';
     const port = this.configService.get('DB_PORT') || '3306';
     const username = this.configService.get('DB_USER_NAME') || 'service';
@@ -17,6 +19,7 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
     const synchronize = this.configService.get('DB_SYNCHRONIZE') || 'false';
     const path = join(__dirname, '../../**/*.entity{.ts,.js}');
 
+    const isDevelopment: boolean = appEnv === 'dev';
     return {
       type: 'mysql',
       host,
@@ -24,6 +27,9 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
       username,
       password,
       database,
+      logging: isDevelopment
+        ? ['query', 'schema', 'error', 'warn', 'info', 'log', 'migration']
+        : ['error', 'warn'],
       entities: [path],
       // 테이블명, 필드명을 어떤 형식으로 생성할지 알려줍니다.
       namingStrategy: new SnakeNamingStrategy(),
