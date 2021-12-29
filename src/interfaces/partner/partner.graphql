@@ -4,6 +4,13 @@ input PartnerInput {
     email: String
 }
 
+input RetrievePartnerInput {
+    partnerName: String
+    businessNo: String
+    email: String
+}
+
+
 type Partner {
     id: Int!
     partnerName: String
@@ -18,4 +25,5 @@ type Mutation {
 
 type Query {
     retrievePartnerBy(partnerId: Int!): Partner
+    retrievePartner(retrievePartnerInput: RetrievePartnerInput): Partner
 }
